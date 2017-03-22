@@ -1,9 +1,12 @@
 package entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
 
 @Entity
 public class Tweet {
@@ -15,15 +18,13 @@ public class Tweet {
 
     @NotNull
     private String author;
-    private Long posted;
+
+    @CreationTimestamp
+    @GeneratedValue
+    private Timestamp posted;
     private String content;
     private String inReplyTo;
     private String repostOf;
-
-    public Tweet(String author, String content) {
-        this.author = author;
-        this.content = content;
-    }
 
     public Integer getId() {
         return id;
@@ -41,11 +42,11 @@ public class Tweet {
         this.author = author;
     }
 
-    public Long getPosted() {
+    public Timestamp getPosted() {
         return posted;
     }
 
-    public void setPosted(Long posted) {
+    public void setPosted(Timestamp posted) {
         this.posted = posted;
     }
 

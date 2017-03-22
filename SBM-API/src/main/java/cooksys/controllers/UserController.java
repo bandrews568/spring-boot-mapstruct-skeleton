@@ -30,8 +30,18 @@ public class UserController {
     }
 
     @PostMapping
-    public User post(@RequestBody @Validated User user) {
+    public UserDto post(@RequestBody @Validated User user) {
         return userService.post(user);
+    }
+
+    @PostMapping("@{username}/follow")
+    public void follow(@PathVariable String username, @RequestBody User user) {
+        userService.follow(username, user);
+    }
+
+    @PostMapping("@{username}/unfollow")
+    public void unfollow(@PathVariable String username, @RequestBody User user) {
+        userService.unfollow(username, user);
     }
 
     @PatchMapping("@{username}")
@@ -40,7 +50,7 @@ public class UserController {
     }
 
     @DeleteMapping("@{username}")
-    public User delete(@RequestBody @Validated User username) {
+    public User delete(@PathVariable String username) {
         return userService.delete(username);
     }
 }

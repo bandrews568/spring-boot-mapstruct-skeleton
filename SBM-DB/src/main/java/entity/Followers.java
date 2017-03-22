@@ -1,18 +1,18 @@
 package entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.util.HashSet;
+import javax.persistence.*;
 import java.util.Set;
 
-@Entity
+@Entity(name = "followers")
 public class Followers {
 
     @Id
     @GeneratedValue
+    @Column(name = "follower_id")
     private Long id;
-    private Set<String> followers = new HashSet<>();
+
+    @ManyToMany
+    private Set<User> followers;
 
     public Long getId() {
         return id;
@@ -22,13 +22,11 @@ public class Followers {
         this.id = id;
     }
 
-    public Set<String> getFollowers() {
+    public Set<User> getFollowers() {
         return followers;
     }
 
-    public void setFollowers(Set<User> users) {
-        for (User user : users) {
-            followers.add(user.getUsername());
-        }
+    public void setFollowers(Set<User> followers) {
+        this.followers = followers;
     }
 }

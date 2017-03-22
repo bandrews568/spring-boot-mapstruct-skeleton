@@ -1,12 +1,10 @@
 package entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.SQLData;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @Entity(name = "users")
@@ -14,6 +12,7 @@ public class User {
 
     @Id
     @GeneratedValue
+    @Column(name = "user_id")
     private Long id;
 
     @NotNull
@@ -27,10 +26,16 @@ public class User {
     @NotNull
     private String email;
     private String phoneNumber;
+
+    @CreationTimestamp
+    @GeneratedValue
     private Timestamp joined;
 
-    @OneToMany(mappedBy = "followers")
-    private Set<String> followers;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "all_followers", joinColumns = {@JoinColumn(name = "user_id")},
+    inverseJoinColumns = {@JoinColumn(name = "follower_id")})
+    private Set<User> followerSet;
+
 
 
     public String getUsername() {
@@ -85,15 +90,27 @@ public class User {
         return joined;
     }
 
-    public void setJoined(Long joined) {
-        this.joined = new Timestamp(System.currentTimeMillis());
-    }
-
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setJoined(Timestamp joined) {
+        this.joined = joined;
+    }
+
+    public Set<User> getFollowerSet() {
+        return followerSet;
+    }
+
+    public void removeFromFollowers(User user) {
+        this.followerSet.remove(user);
+    }
+
+    public void setFollowerSet(User followerSet) {
+        this.followerSet.add(followerSet);
     }
 }
