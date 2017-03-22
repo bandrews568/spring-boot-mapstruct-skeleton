@@ -3,6 +3,7 @@ package cooksys.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import repository.UserRepository;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
@@ -34,5 +35,4 @@ public class SpringFoxConfiguration {
 	public UiConfiguration uiConfiguration() {
 		return new UiConfiguration(null, new String[] { "get", "post", "put", "delete", "patch", "options", "head" });
 	}
-
 }
