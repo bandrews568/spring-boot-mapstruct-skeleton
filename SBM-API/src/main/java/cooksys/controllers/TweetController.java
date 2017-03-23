@@ -35,7 +35,7 @@ public class TweetController {
 
     @DeleteMapping("{id}")
     public TweetDto delete(@PathVariable Long id) {
-        tweetService.delete(id);
+        return tweetService.delete(id);
     }
 
 }

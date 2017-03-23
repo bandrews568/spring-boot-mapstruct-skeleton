@@ -14,12 +14,6 @@ public class Hashtag {
     private Long firstUsed;
     private Long lastUsed;
 
-    public Hashtag(String label, Long firstUsed, Long lastUsed) {
-        this.label = label;
-        this.firstUsed = firstUsed;
-        this.lastUsed = lastUsed;
-    }
-
     public String getLabel() {
         return label;
     }

@@ -2,10 +2,12 @@ package cooksys.service;
 
 import dto.UserDto;
 import entity.Credentials;
+import entity.DeletedUsers;
 import entity.User;
 import mapper.UserMapper;
 import org.springframework.stereotype.Service;
 import repository.CredentialsRepository;
+import repository.DeletedUsersRepository;
 import repository.UserRepository;
 
 import java.util.Collections;
@@ -18,12 +20,14 @@ public class UserService {
     private UserRepository userRepository;
     private CredentialsRepository credentialsRepository;
     private UserMapper userMapper;
+    private DeletedUsersRepository deletedUsersRepository;
 
     public UserService(UserRepository userRepository, CredentialsRepository credentialsRepository,
-                       UserMapper userMapper) {
+                       UserMapper userMapper, DeletedUsersRepository deletedUsersRepository) {
         this.userRepository = userRepository;
         this.credentialsRepository = credentialsRepository;
         this.userMapper = userMapper;
+        this.deletedUsersRepository = deletedUsersRepository;
     }
 
     public List<UserDto> index() {
@@ -39,7 +43,6 @@ public class UserService {
 
         if (!userExist(user.getUsername(), user.getPassword())) {
             userDto = userMapper.toUserDto(userRepository.save(user));
-            // TODO save into credentials database
         }
         return userDto;
     }
@@ -57,10 +60,10 @@ public class UserService {
 
     public User delete(String username) {
         User user = userRepository.findByUsername(username);
-        if (user != null) {
+        if (!(user instanceof User)) {
             userRepository.delete(user);
+            deletedUsersRepository.save(user);
         }
-        // TODO move in to another table after deleting
         return user;
     }
 
