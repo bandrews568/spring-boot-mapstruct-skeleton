@@ -36,6 +36,13 @@ public class User {
     inverseJoinColumns = {@JoinColumn(name = "follower_id")})
     private Set<User> followerSet;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "all_followers", joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "follower_id")})
+    private Set<User> followingSet;
+
+
+
 
 
     public String getUsername() {

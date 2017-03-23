@@ -2,7 +2,9 @@ package cooksys.controllers;
 
 import cooksys.service.TweetService;
 import dto.TweetDto;
+import entity.Hashtag;
 import entity.Tweet;
+import entity.User;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +28,21 @@ public class TweetController {
     @GetMapping("{id}")
     public TweetDto getTweet(@PathVariable Long id) {
         return tweetService.getTweet(id);
+    }
+
+    @GetMapping("{id}/likes")
+    public List<String> getLikers(@PathVariable Long id) {
+        return tweetService.getLikers(id);
+    }
+
+    @GetMapping("{id}/tags")
+    public List<String> getTags(@PathVariable Long id) {
+        return tweetService.getTags(id);
+    }
+
+    @PostMapping("{id}/like")
+    public void likeTweet(@PathVariable Long id, @RequestBody User user) {
+        tweetService.likeTweet(id, user);
     }
 
     @PostMapping

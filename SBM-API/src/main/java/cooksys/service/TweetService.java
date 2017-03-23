@@ -3,6 +3,7 @@ package cooksys.service;
 import dto.TweetDto;
 import entity.Hashtag;
 import entity.Tweet;
+import entity.User;
 import mapper.TweetMapper;
 import org.springframework.stereotype.Service;
 import repository.HashtagRepository;
@@ -37,6 +38,24 @@ public class TweetService {
         return tweetMapper.toTweetDto(tweetRepository.getOne(id));
     }
 
+    public List<String> getTags(Long id) {
+        return tweetRepository.getOne(id).getHashtags();
+    }
+
+    public List<String> getLikers(Long id) {
+        List<User> likersList = tweetRepository.getOne(id).getLikers();
+        List<String> likers = new ArrayList<>();
+
+        for (User user : likersList) {
+            likers.add(user.getUsername());
+        }
+        return likers;
+    }
+
+    public void likeTweet(Long id, User user) {
+        tweetRepository.getOne(id).addLiker(user);
+    }
+
     public TweetDto post(Tweet tweet) {
         List<String> hashtags = parseHashtag(tweet.getContent());
         for (String tag : hashtags) {
@@ -45,6 +64,7 @@ public class TweetService {
             hashtag.setFirstUsed(System.currentTimeMillis());
             hashtagRepository.save(hashtag);
         }
+        tweet.setHashtags(hashtags);
         return tweetMapper.toTweetDto(tweetRepository.save(tweet));
     }
 

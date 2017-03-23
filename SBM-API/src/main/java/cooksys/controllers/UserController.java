@@ -1,6 +1,7 @@
 package cooksys.controllers;
 
 import cooksys.service.UserService;
+import dto.TweetDto;
 import dto.UserDto;
 import org.dom4j.util.UserDataDocumentFactory;
 import org.springframework.validation.annotation.Validated;
@@ -27,6 +28,21 @@ public class UserController {
     @GetMapping("@{username}")
     public User get(@PathVariable String username) {
         return userService.getByUsername(username);
+    }
+
+    @GetMapping("@{username}/tweets")
+    public List<TweetDto> getTweets(@PathVariable String username) {
+        return userService.getTweets(username);
+    }
+
+    @GetMapping("@{username}/followers")
+    public List<String> getFollowers(@PathVariable String username) {
+        return userService.getFollowers(username);
+    }
+
+    @GetMapping("@{username}/following")
+    public List<String> getFollowing(@PathVariable String username) {
+        return userService.getFollowing(username);
     }
 
     @PostMapping

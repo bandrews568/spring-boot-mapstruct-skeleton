@@ -2,11 +2,11 @@ package entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 public class Tweet {
@@ -25,6 +25,34 @@ public class Tweet {
     private String content;
     private String inReplyTo;
     private String repostOf;
+
+    @ElementCollection
+    private List<String> hashtags;
+
+    @OneToMany
+    private List<User> likers;
+
+    public List<String> getHashtags() {
+        return hashtags;
+    }
+
+    public void setHashtags(List<String> hashtags) {
+        this.hashtags = hashtags;
+    }
+
+    public void addLiker(User user) {
+        if (!likers.isEmpty()) {
+            likers.add(user);
+        }
+    }
+
+    public List<User> getLikers() {
+        return likers;
+    }
+
+    public void setLikers(List<User> likers) {
+        this.likers = likers;
+    }
 
     public Integer getId() {
         return id;
