@@ -3,6 +3,7 @@ package cooksys.controllers;
 import cooksys.service.UserService;
 import dto.TweetDto;
 import dto.UserDto;
+import dto.UserPostDto;
 import org.dom4j.util.UserDataDocumentFactory;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +47,7 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDto post(@RequestBody @Validated User user) {
+    public UserPostDto post(@RequestBody @Validated UserPostDto user) {
         return userService.post(user);
     }
 

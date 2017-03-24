@@ -42,6 +42,15 @@ public class TweetService {
         return tweetRepository.getOne(id).getHashtags();
     }
 
+    public List<TweetDto> getTweets(String username) {
+        List<Tweet> tweetList = tweetRepository.findByAuthor(username);
+        List<TweetDto> tweetDtos = new ArrayList<>();
+        for (Tweet tweet : tweetList) {
+            tweetDtos.add(tweetMapper.toTweetDto(tweet));
+        }
+        return tweetDtos;
+    }
+
     public List<String> getLikers(Long id) {
         List<User> likersList = tweetRepository.getOne(id).getLikers();
         List<String> likers = new ArrayList<>();

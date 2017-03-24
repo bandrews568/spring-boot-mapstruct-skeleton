@@ -2,12 +2,14 @@ package cooksys.service;
 
 import dto.TweetDto;
 import dto.UserDto;
+import dto.UserPostDto;
 import entity.Credentials;
 import entity.DeletedUsers;
 import entity.Tweet;
 import entity.User;
 import mapper.TweetMapper;
 import mapper.UserMapper;
+import mapper.UserPostMapper;
 import org.springframework.stereotype.Service;
 import repository.CredentialsRepository;
 import repository.DeletedUsersRepository;
@@ -28,16 +30,19 @@ public class UserService {
     private DeletedUsersRepository deletedUsersRepository;
     private TweetRepository tweetRepository;
     private TweetMapper tweetMapper;
+    private UserPostMapper userPostMapper;
 
     public UserService(UserRepository userRepository, CredentialsRepository credentialsRepository,
                        UserMapper userMapper, DeletedUsersRepository deletedUsersRepository,
-                       TweetRepository tweetRepository, TweetMapper tweetMapper) {
+                       TweetRepository tweetRepository, TweetMapper tweetMapper,
+                       UserPostMapper userPostMapper) {
         this.userRepository = userRepository;
         this.credentialsRepository = credentialsRepository;
         this.userMapper = userMapper;
         this.deletedUsersRepository = deletedUsersRepository;
         this.tweetRepository = tweetRepository;
         this.tweetMapper = tweetMapper;
+        this.userPostMapper = userPostMapper;
     }
 
     public List<UserDto> index() {
@@ -48,13 +53,14 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public UserDto post(User user) {
-        UserDto userDto = null;
+    public UserPostDto post(UserPostDto user) {
+        User userDto;
 
         if (!userExist(user.getUsername(), user.getPassword())) {
-            userDto = userMapper.toUserDto(userRepository.save(user));
+            userDto = userPostMapper.toUser(user);
+            userRepository.save(userDto);
         }
-        return userDto;
+        return user;
     }
 
     public User getByUsername(String username) {

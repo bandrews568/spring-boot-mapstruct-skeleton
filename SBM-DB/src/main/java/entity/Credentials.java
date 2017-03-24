@@ -1,5 +1,6 @@
 package entity;
 
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 

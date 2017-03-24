@@ -35,6 +35,11 @@ public class TweetController {
         return tweetService.getLikers(id);
     }
 
+    @GetMapping("@{username}/tweets")
+    public List<TweetDto> getTweets(@PathVariable String username) {
+        return tweetService.getTweets(username);
+    }
+
     @GetMapping("{id}/tags")
     public List<String> getTags(@PathVariable Long id) {
         return tweetService.getTags(id);

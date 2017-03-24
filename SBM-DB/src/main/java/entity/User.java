@@ -37,13 +37,9 @@ public class User {
     private Set<User> followerSet;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "all_followers", joinColumns = {@JoinColumn(name = "user_id")},
+    @JoinTable(name = "all_following", joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "follower_id")})
     private Set<User> followingSet;
-
-
-
-
 
     public String getUsername() {
         return username;
@@ -119,5 +115,17 @@ public class User {
 
     public void setFollowerSet(User followerSet) {
         this.followerSet.add(followerSet);
+    }
+
+    public void setFollowerSet(Set<User> followerSet) {
+        this.followerSet = followerSet;
+    }
+
+    public Set<User> getFollowingSet() {
+        return followingSet;
+    }
+
+    public void setFollowingSet(Set<User> followingSet) {
+        this.followingSet = followingSet;
     }
 }
