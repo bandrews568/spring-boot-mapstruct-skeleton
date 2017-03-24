@@ -54,7 +54,6 @@ public class TweetService {
     public List<String> getLikers(Long id) {
         List<User> likersList = tweetRepository.getOne(id).getLikers();
         List<String> likers = new ArrayList<>();
-
         for (User user : likersList) {
             likers.add(user.getUsername());
         }
